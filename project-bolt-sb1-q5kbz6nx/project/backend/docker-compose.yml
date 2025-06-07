@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: artschool-postgres
+    environment:
+      POSTGRES_DB: artschool
+      POSTGRES_USER: artschool_user
+      POSTGRES_PASSWORD: artschool_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - artschool-network
+
+  app:
+    build: .
+    container_name: artschool-backend
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/artschool
+      SPRING_DATASOURCE_USERNAME: artschool_user
+      SPRING_DATASOURCE_PASSWORD: artschool_password
+    depends_on:
+      - postgres
+    networks:
+      - artschool-network
+
+volumes:
+  postgres_data:
+
+networks:
+  artschool-network:
+    driver: bridge

@@ -1,0 +1,44 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: art-school-backend
+  
+  datasource:
+    url: jdbc:postgresql://localhost:5432/artschool
+    username: artschool_user
+    password: artschool_password
+    driver-class-name: org.postgresql.Driver
+  
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+  
+  security:
+    cors:
+      allowed-origins: "http://localhost:5173"
+      allowed-methods: "*"
+      allowed-headers: "*"
+      allow-credentials: true
+
+jwt:
+  secret: mySecretKey123456789012345678901234567890
+  expiration: 86400000 # 24 hours
+
+yookassa:
+  shop-id: ${YOOKASSA_SHOP_ID:demo_shop_id}
+  secret-key: ${YOOKASSA_SECRET_KEY:demo_secret_key}
+  api-url: https://api.yookassa.ru/v3
+
+logging:
+  level:
+    com.artschool: DEBUG
+    org.springframework.security: DEBUG
